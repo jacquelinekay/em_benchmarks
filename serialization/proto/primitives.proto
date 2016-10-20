@@ -1,0 +1,12 @@
+package em_benchmarks;
+
+message Primitives {
+  required int32 int32_value = 1;
+  required uint32 uint32_value = 2;
+  required int64 int64_value = 3;
+  required uint64 uint64_value = 4;
+  required double double_value = 5;
+  required float float_value = 6;
+  required bool bool_value = 7;
+  required string string_value = 8;
+}

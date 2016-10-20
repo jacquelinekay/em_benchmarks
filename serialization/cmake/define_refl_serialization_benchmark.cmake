@@ -1,0 +1,5 @@
+function(define_refl_serialization_benchmark BENCHMARK_NAME)
+  add_executable(${BENCHMARK_NAME} ${BENCHMARK_NAME}.cpp)
+  target_include_directories(${BENCHMARK_NAME} PUBLIC "../include" ${CEREAL_INCLUDE_DIRS} ${HANA_INCLUDE_DIRS})
+  target_compile_options(${BENCHMARK_NAME} PUBLIC "-std=c++1z" "-Wall")
+endfunction()

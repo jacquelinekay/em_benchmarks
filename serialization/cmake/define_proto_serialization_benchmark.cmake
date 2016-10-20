@@ -1,0 +1,11 @@
+macro(define_proto_serialization_benchmark BENCHMARK_NAME MESSAGE_NAMES)
+  if (${PROTOBUF_FOUND})
+    add_executable(${BENCHMARK_NAME} ${BENCHMARK_NAME}.cpp)
+    target_include_directories(${BENCHMARK_NAME} PUBLIC
+      "../include" ${CEREAL_INCLUDE_DIRS} ${HANA_INCLUDE_DIRS})
+    target_link_libraries(${BENCHMARK_NAME} ${PROTOBUF_LIBRARIES})
+    target_link_libraries(${BENCHMARK_NAME} proto_gen)
+    target_include_directories(${BENCHMARK_NAME} PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/..")
+    target_compile_options(${BENCHMARK_NAME} PUBLIC "-std=c++1z")
+  endif()
+endmacro()

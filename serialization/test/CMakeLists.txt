@@ -1,0 +1,17 @@
+include(../cmake/define_refl_serialization_benchmark.cmake)
+include(../cmake/define_proto_serialization_benchmark.cmake)
+
+define_refl_serialization_benchmark(basic_usage)
+define_proto_serialization_benchmark(proto_basic "primitives;primitive_arrays;primitives_array")
+
+define_refl_serialization_benchmark(primitives_benchmark)
+define_proto_serialization_benchmark(primitives_benchmark_proto "primitives")
+
+define_refl_serialization_benchmark(primitive_arrays_benchmark)
+define_proto_serialization_benchmark(primitive_arrays_benchmark_proto "primitive_arrays")
+
+define_refl_serialization_benchmark(primitives_array_benchmark)
+define_proto_serialization_benchmark(primitives_array_benchmark_proto "primitives;primitives_array")
+
+define_refl_serialization_benchmark(nested_benchmark)
+define_proto_serialization_benchmark(nested_benchmark_proto "primitives;primitive_arrays;nested")

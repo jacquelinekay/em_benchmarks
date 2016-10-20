@@ -1,0 +1,9 @@
+package em_benchmarks;
+
+import "primitives.proto";
+import "primitive_arrays.proto";
+
+message Nested {
+  required Primitives prims = 1;
+  required PrimitiveArrays prim_arrays = 2;
+}

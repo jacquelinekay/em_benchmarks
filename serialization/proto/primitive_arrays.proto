@@ -1,0 +1,12 @@
+package em_benchmarks;
+
+message PrimitiveArrays {
+  repeated int32 int32_value = 1;
+  repeated uint32 uint32_value = 2;
+  repeated int64 int64_value = 3;
+  repeated uint64 uint64_value = 4;
+  repeated double double_value = 5;
+  repeated float float_value = 6;
+  repeated bool bool_value = 7;
+  repeated string string_value = 8;
+}

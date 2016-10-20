@@ -1,0 +1,7 @@
+package em_benchmarks;
+
+import "primitives.proto";
+
+message PrimitivesArray {
+  repeated Primitives primitives_value = 1;
+}

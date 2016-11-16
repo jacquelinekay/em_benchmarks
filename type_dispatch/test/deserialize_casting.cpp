@@ -1,5 +1,6 @@
 #include "idl/ack.hpp"
 #include "idl/foo.hpp"
+#include "idl/bar.hpp"
 #include "idl/source.hpp"
 #include "deserialize_casting.hpp"
 
@@ -41,6 +42,18 @@ void foo_callback(void * args) {
   volatile Foo b = src;
 }
 
+void bar_callback(void * args) {
+  // User callbacks have to provide the message type and
+  // handle deserialization
+  auto archive = static_cast<cereal::BinaryOutputArchive *>(args);
+  if (!archive) {
+    return;
+  }
+  Bar src;
+  (*archive)(src);
+  volatile Bar b = src;
+}
+
 int main(int argc, char** argv) {
   std::stringstream s;
   cereal::BinaryOutputArchive a(s);
@@ -49,6 +62,7 @@ int main(int argc, char** argv) {
   register_callback("ack", ack_callback, callback_map);
   register_callback("source", source_callback, callback_map);
   register_callback("foo", foo_callback, callback_map);
+  register_callback("bar", bar_callback, callback_map);
 
   Ack ack;
   serialize_wrapper::serialize(ack, s);

@@ -42,31 +42,27 @@ void deserialize_with_callback(Archive &archive,
                  });
 }
 
-template <typename CallbackMap, typename TypeSeq> struct CallbackRegistrar {
-  const CallbackMap callback_map;
-  const TypeSeq type_sequence;
-
-  template <typename T, typename Callback>
-  auto register_callback(const std::string &id, Callback &&callback) const {
-    auto next_callback_map =
-        hana::insert(callback_map, hana::make_pair(hana::type_c<T>, callback));
-    auto next_tuple_sequence = hana::insert(
-        type_sequence, hana::int_c<0>, hana::make_pair(id, hana::type_c<T>));
-    return make_callback_registrar(next_callback_map, next_tuple_sequence);
-  }
-
-  auto unpack() const { return std::make_tuple(callback_map, type_sequence); }
-};
-
-static auto make_callback_registrar() {
-  auto m = hana::make_map();
-  auto t = hana::make_tuple();
-  return CallbackRegistrar<decltype(m), decltype(t)>{m, t};
+template <typename ...Callbacks>
+auto register_callbacks(Callbacks const& ...callbacks) {
+  auto map = hana::make_map(
+    hana::make_pair(hana::type<typename Callbacks::type>{}, callbacks.function)...
+  );
+  auto tuple = hana::make_tuple(
+    hana::make_pair(callbacks.id, hana::type<typename Callbacks::type>{})...
+  );
+  return std::make_tuple(std::move(map), std::move(tuple));
 }
 
-template <typename M, typename S>
-static auto make_callback_registrar(const M &m, const S &s) {
-  return CallbackRegistrar<M, S>{m, s};
+template <typename T, typename F>
+struct Callback {
+  std::string id;
+  F function;
+  using type = T;
+};
+
+template <typename T, typename F>
+auto callback(const std::string &id, F&& callback) {
+  return Callback<T, std::decay_t<F>>{id, std::forward<F>(callback)};
 }
 }
 
